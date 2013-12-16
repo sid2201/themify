@@ -24,16 +24,14 @@ class ResolverTest extends PHPUnit_Framework_TestCase {
 
     public function testResolvesControllerTheme()
     {
-        // Mock a controller with a $theme property
-        $controller = M::mock('Illuminate\Routing\Controllers\Controller');
-        $controller->theme = 'footheme';
-
         // Make app return router, and router return an action
         $this->mockAppRouter();
         $this->router->shouldReceive('currentRouteAction')
-            ->andReturn('Foo@action');
+            ->andReturn('FooController@action');
 
-        $this->mockAppController($controller);
+        // Mock corresponding controller for the router action
+        // and assign a theme property
+        $this->mockAppController('FooController', 'footheme');
         
         $resolver = new Resolver($this->app);
         $this->assertEquals('footheme', $resolver->resolve());
@@ -90,14 +88,19 @@ class ResolverTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Make the $app object return a given
-     * $controller object.
+     * Create a mocked controller and return it
+     * using the given name, with a given $theme property.
      *
-     * @param stdClass $controller
+     * @param string $name Name of the controller
+     * @param string $theme
      */
-    protected function mockAppController($controller)
+    protected function mockAppController($name, $theme)
     {
+        $controller = M::mock($name);
+        $controller->theme = $theme;
+
         $this->app->shouldReceive('make')
+            ->with($name)
             ->once()
             ->andReturn($controller);
     }
