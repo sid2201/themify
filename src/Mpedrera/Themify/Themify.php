@@ -45,12 +45,8 @@ class Themify {
      */
     public function getTheme()
     {
-        // Check if a specific theme has been defined
-        if ($this->currentTheme !== null) {
-            return $this->currentTheme;
-        }
-
-        return $this->resolver->resolve();
+        // Return $currentTheme if not null, $resolver->resolve() otherwise
+        return $this->currentTheme ?: $this->resolver->resolve();
     }
 
 }
