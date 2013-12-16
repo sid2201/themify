@@ -18,7 +18,14 @@ class ThemifyServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->package('mpedrera/themify', 'themify');
+
+		$app = $this->app;
+
+		$this->app['themify'] = $this->app->share(function($app)
+		{
+			return new Themify($app);
+		});
 	}
 
 	/**
