@@ -1,21 +1,21 @@
 <?php namespace Mpedrera\Themify\Resolver;
 
-use Illuminate\Container\Container;
+use Illuminate\Foundation\Application;
 
 class Resolver {
 
     /**
-    * @var Illuminate\Container\Container $app
+    * @var Illuminate\Foundation\Application $app
     */
     protected $app;
 
     /**
      * Constructor.
      * 
-     * @param Illuminate\Container\Container $app
+     * @param Illuminate\Foundation\Application $app
      * @return Mpedrera\Themify\Resolver\Resolver
      */
-    public function __construct(Container $app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
@@ -37,7 +37,7 @@ class Resolver {
         }
 
         // Return default theme in configuration options
-        if (($theme = $this->app['config']->get('themify::default_theme')) !== '') {
+        if (($theme = $this->app->make('config')->get('themify::default_theme')) !== '') {
             return $theme;
         }
     }
@@ -65,7 +65,7 @@ class Resolver {
      */
     protected function getCurrentController()
     {
-        $route = $this->app['router']->currentRouteAction();
+        $route = $this->app->make('router')->currentRouteAction();
         
         if (($pos = strpos($route, '@')) !== false) {
             $controllerName = substr($route, 0, $pos);
