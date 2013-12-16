@@ -35,6 +35,11 @@ class ThemifyServiceProvider extends ServiceProvider {
 		return array();
 	}
 
+	/**
+	 * Register Themify class in IoC container.
+	 * 
+	 * @return void
+	 */
 	protected function registerMainClass()
 	{
 		$this->app['themify'] = $this->app->share(function($app)
@@ -43,6 +48,11 @@ class ThemifyServiceProvider extends ServiceProvider {
 		});
 	}
 
+	/**
+	 * Register Mpedrera\Themify\Resolver\Resolver in IoC container.
+	 * 
+	 * @return void
+	 */
 	protected function registerResolver()
 	{
 		$this->app['themify.resolver'] = $this->app->share(function($app)
