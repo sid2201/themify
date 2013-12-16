@@ -1,6 +1,7 @@
 <?php namespace Mpedrera\Themify;
 
 use Illuminate\Support\ServiceProvider;
+use Mpedrera\Themify\Resolver\Resolver;
 
 class ThemifyServiceProvider extends ServiceProvider {
 
@@ -20,12 +21,8 @@ class ThemifyServiceProvider extends ServiceProvider {
 	{
 		$this->package('mpedrera/themify', 'themify');
 
-		$app = $this->app;
-
-		$this->app['themify'] = $this->app->share(function($app)
-		{
-			return new Themify($app);
-		});
+		$this->registerResolver();
+		$this->registerMainClass();
 	}
 
 	/**
@@ -36,6 +33,22 @@ class ThemifyServiceProvider extends ServiceProvider {
 	public function provides()
 	{
 		return array();
+	}
+
+	protected function registerMainClass()
+	{
+		$this->app['themify'] = $this->app->share(function($app)
+		{
+			return new Themify($app['themify.resolver']);
+		});
+	}
+
+	protected function registerResolver()
+	{
+		$this->app['themify.resolver'] = $this->app->share(function($app)
+		{
+			return new Resolver($app);
+		});
 	}
 
 }
