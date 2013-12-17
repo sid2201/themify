@@ -91,11 +91,11 @@ class ThemifyServiceProvider extends ServiceProvider {
 	protected function registerViewFinder()
 	{
 		$this->app->bindShared('view.finder', function($app)
-        {
+		{
 			$paths = $app['config']['view.paths'];
 
 			return new ThemeViewFinder($app['files'], $paths);
-        });
+		});
 	}
 
 
