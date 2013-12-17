@@ -4,6 +4,15 @@ use Illuminate\View\FileViewFinder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Config\Repository as Config;
 
+/**
+ * Add functionality to the original FileViewFinder from
+ * Laravel, to add view paths at the beginning of the paths 
+ * array, so they get preference against the rest of view paths.
+ *
+ * Since the main package class will replace FileViewFinder
+ * in IoC container with this class, it will be used transparently
+ * by the application.
+ */
 class ThemeViewFinder extends FileViewFinder {
 
     /**
@@ -48,7 +57,7 @@ class ThemeViewFinder extends FileViewFinder {
      /**
      * Check if a previous theme location has been added to $paths.
      *
-     * @return int|false Returns index of the $location if found, false if not
+     * @return mixed Index of the $location if found, false if not
      */
     protected function hasPreviousThemeLocation()
     {
