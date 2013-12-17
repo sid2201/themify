@@ -24,6 +24,11 @@ class Themify {
     protected $finder;
 
     /**
+     * @var Illuminate\Events\Dispatcher
+     */
+    protected $events;
+
+    /**
      * @var Illuminate\Config\Repository
      */
     protected $config;
@@ -92,7 +97,10 @@ class Themify {
     }
 
     /**
-     * 
+     * Build theme path for a given theme name.
+     *
+     * @param string $theme
+     * @return string
      */
     protected function buildThemePath($theme)
     {

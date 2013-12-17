@@ -25,9 +25,8 @@ class Resolver {
      * Order of preference is:
      *      - Controller theme
      *      - Default theme in package configuration
-     * If no theme is found, return void.
      *
-     * @return mixed
+     * @return mixed String with theme name or void if not found
      */
     public function resolve()
     {
@@ -61,7 +60,7 @@ class Resolver {
      * Get an instance of the possible current controller
      * being executed for the current route.
      *
-     * @return Illuminate\Routing\Controllers\Controller|void
+     * @return mixed
      */
     protected function getCurrentController()
     {

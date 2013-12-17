@@ -3,6 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Mpedrera\Themify\Resolver\Resolver;
 use Mpedrera\Themify\Finder\ThemeViewFinder;
+use Mpedrera\Themify\Filter\ThemeFilter;
 
 class ThemifyServiceProvider extends ServiceProvider {
 
@@ -35,8 +36,8 @@ class ThemifyServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->app['router']->filter('themify::resolve', 'ThemeFilter');
-		$this->app['router']->when('*', 'themify::resolve');
+		$this->app['router']->filter('themify.resolve', 'ThemeFilter');
+		$this->app['router']->when('*', 'themify.resolve');
 	}
 
 	/**
@@ -105,6 +106,9 @@ class ThemifyServiceProvider extends ServiceProvider {
 	 */
 	protected function registerThemeFilter()
 	{
-		$this->app->bind('ThemeFilter', 'Mpedrera\Themify\Filter\ThemeFilter');
+		$this->app->bind('ThemeFilter', function($app)
+		{
+			return new ThemeFilter($app['themify'], $app['events']);
+		});
 	}
 }
