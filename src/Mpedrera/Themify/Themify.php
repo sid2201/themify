@@ -41,6 +41,7 @@ class Themify {
         $this->events = $events;
         $this->config = $config;
 
+        // TODO: Move to a proper place
         $this->events->listen('theme.set', function($theme, $priority)
         {
             $themePath = $this->config['themify::theme_views_path'];
