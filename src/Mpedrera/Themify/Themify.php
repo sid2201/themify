@@ -72,7 +72,7 @@ class Themify {
      * First, check if a theme has been defined explicitly.
      * If not, try to resolve using $resolver.
      *
-     * @return string|void
+     * @return mixed
      */
     public function getTheme()
     {

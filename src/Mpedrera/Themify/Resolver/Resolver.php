@@ -27,7 +27,7 @@ class Resolver {
      *      - Default theme in package configuration
      * If no theme is found, return void.
      *
-     * @return string|void
+     * @return mixed
      */
     public function resolve()
     {
@@ -46,7 +46,7 @@ class Resolver {
      * Try to get $theme property from possible current controller being
      * executed for the current route.
      *
-     * @return string|void
+     * @return mixed
      */
     protected function getControllerTheme()
     {
