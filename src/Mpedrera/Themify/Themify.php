@@ -24,6 +24,11 @@ class Themify {
     protected $finder;
 
     /**
+     * @var Illuminate\Config\Repository
+     */
+    protected $config;
+
+    /**
      * Constructor.
      *
      * @param Mpedrera\Themify\Resolver\Resolver $resolver
@@ -57,7 +62,7 @@ class Themify {
         }
 
         $this->currentTheme = $theme;
-        
+
         $this->events->fire('theme.set', array($theme, 1));
     }
 
