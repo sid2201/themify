@@ -44,8 +44,7 @@ class Themify {
         // TODO: Move to a proper place
         $this->events->listen('theme.set', function($theme, $priority)
         {
-            $themePath = $this->config['themify::theme_views_path'];
-            $themePath .= DIRECTORY_SEPARATOR . $theme;
+            $themePath = $this->buildThemePath($theme);
             $this->finder->addThemeLocation($themePath, $priority);
         });
     }
@@ -90,6 +89,18 @@ class Themify {
     public function addThemeLocation($location)
     {
         return $this->finder->addThemeLocation($location);
+    }
+
+    /**
+     * 
+     */
+    protected function buildThemePath($theme)
+    {
+        $themePath = $this->config['themify::themes_path'];
+        $themePath .= DIRECTORY_SEPARATOR . $theme;
+        $themePath .= DIRECTORY_SEPARATOR . 'views';
+
+        return $themePath;
     }
 
 }
