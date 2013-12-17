@@ -92,9 +92,9 @@ class ThemifyServiceProvider extends ServiceProvider {
 	{
 		$this->app->bindShared('view.finder', function($app)
         {
-            $paths = $app['config']['view.paths'];
+			$paths = $app['config']['view.paths'];
 
-            return new ThemeViewFinder($app['files'], $paths);
+			return new ThemeViewFinder($app['files'], $paths);
         });
 	}
 
