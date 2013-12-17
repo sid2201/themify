@@ -52,7 +52,7 @@ class Resolver {
     {
         $controller = $this->getCurrentController();
 
-        if (property_exists($controller, 'theme') && isset($controller->theme) && trim($controller->theme) !== '') {
+        if ($controller !== null && isset($controller->theme) && trim($controller->theme) !== '') {
             return $controller->theme;
         }
     }

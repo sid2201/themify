@@ -6,10 +6,15 @@ use Mpedrera\Themify\Themify;
 class ThemifyTest extends PHPUnit_Framework_TestCase {
 
     protected $resolver;
+    protected $finder;
+    protected $t;
 
     public function setUp()
     {
         $this->mockResolver();
+        $this->mockViewFinder();
+
+        $this->t = new Themify($this->resolver, $this->finder);
     }
 
     public function tearDown()
@@ -19,10 +24,9 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
 
     public function testThemeIsBeingSet()
     {
-        $t = new Themify($this->resolver);
-        $t->setTheme('footheme');
+        $this->t->setTheme('footheme');
 
-        $this->assertEquals($t->getTheme(), 'footheme');
+        $this->assertEquals($this->t->getTheme(), 'footheme');
     }
 
     public function testReturnsResolvedThemeWhenOwnThemeIsNull()
@@ -31,9 +35,7 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
             ->once()
             ->andReturn('bartheme');
 
-        $t = new Themify($this->resolver);
-
-        $this->assertEquals($t->getTheme(), 'bartheme');
+        $this->assertEquals($this->t->getTheme(), 'bartheme');
     }
 
     /**
@@ -42,6 +44,14 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
     protected function mockResolver()
     {
         $this->resolver = M::mock('Mpedrera\Themify\Resolver\Resolver');
+    }
+
+    /**
+     *
+     */
+    protected function mockViewFinder()
+    {
+        $this->finder = M::mock('Mpedrera\Themify\Finder\ThemeViewFinder');
     }
 
 }

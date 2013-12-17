@@ -1,7 +1,10 @@
 <?php namespace Mpedrera\Themify;
 
-use \InvalidArgumentException;
 use Mpedrera\Themify\Resolver\Resolver;
+use Mpedrera\Themify\Finder\ThemeViewFinder as Finder;
+use Illuminate\Events\Dispatcher as EventDispatcher;
+use Illuminate\Config\Repository as Config;
+use \InvalidArgumentException;
 
 class Themify {
 
@@ -11,14 +14,34 @@ class Themify {
     protected $currentTheme;
 
     /**
+     * @var Mpedrera\Themify\Resolver\Resolver
+     */
+    protected $resolver;
+
+    /**
+     * @var Mpedrera\Themify\Finder\ThemeViewFinder
+     */
+    protected $finder;
+
+    /**
      * Constructor.
      *
      * @param Mpedrera\Themify\Resolver\Resolver $resolver
      * @return Mpedrera\Themify\Themify
      */
-    public function __construct(Resolver $resolver)
+    public function __construct(Resolver $resolver, Finder $finder, EventDispatcher $events, Config $config)
     {
         $this->resolver = $resolver;
+        $this->finder = $finder;
+        $this->events = $events;
+        $this->config = $config;
+
+        $this->events->listen('theme.set', function($theme, $priority)
+        {
+            $themePath = $this->config['themify::theme_views_path'];
+            $themePath .= DIRECTORY_SEPARATOR . $theme;
+            $this->finder->addThemeLocation($themePath, $priority);
+        });
     }
 
     /**
@@ -34,6 +57,8 @@ class Themify {
         }
 
         $this->currentTheme = $theme;
+        
+        $this->events->fire('theme.set', array($theme, 1));
     }
 
     /**
@@ -47,6 +72,18 @@ class Themify {
     {
         // Return $currentTheme if not null, $resolver->resolve() otherwise
         return $this->currentTheme ?: $this->resolver->resolve();
+    }
+
+    /**
+     * Prepend a location to the finder, instead of 
+     * appending. This way, theme views have priority.
+     *
+     * @param string $location
+     * @return void
+     */
+    public function addThemeLocation($location)
+    {
+        return $this->finder->addThemeLocation($location);
     }
 
 }
