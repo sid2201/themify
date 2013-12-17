@@ -1,6 +1,6 @@
 <?php namespace Mpedrera\Themify\Resolver;
 
-use Illuminate\Foundation\Application;
+use Illuminate\Container\Container;
 
 class Resolver {
 
@@ -15,7 +15,7 @@ class Resolver {
      * @param Illuminate\Foundation\Application $app
      * @return Mpedrera\Themify\Resolver\Resolver
      */
-    public function __construct(Application $app)
+    public function __construct(Container $app)
     {
         $this->app = $app;
     }

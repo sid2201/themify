@@ -65,7 +65,7 @@ class ThemeViewFinder extends FileViewFinder {
             return false;
         }
 
-        return array_search($this->prevLocation, $this->paths));
+        return array_search($this->prevLocation, $this->paths);
     }
 
 }
