@@ -6,6 +6,16 @@ use Mpedrera\Themify\Finder\ThemeViewFinder;
 
 class ThemeFilter {
 
+    /**
+     * @var Mpedrera\Themify\Themify
+     */
+    protected $themify;
+
+    /**
+     * @var Illuminate\Events\Dispatcher
+     */
+    protected $events;
+
     public function __construct(Themify $themify, EventDispatcher $events)
     {
         $this->themify = $themify;
