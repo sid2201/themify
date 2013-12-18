@@ -33,20 +33,26 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
 
     public function testThemeIsBeingSet()
     {
-        $this->events->shouldReceive('fire')
-            ->once();
+        $this->events->shouldReceive('fire')->once();
 
+        // Explicitly set theme
         $this->t->setTheme('footheme');
 
+        // Check it's been set properly
         $this->assertEquals($this->t->getTheme(), 'footheme');
     }
 
     public function testReturnsResolvedThemeWhenOwnThemeIsNull()
     {
+        // We don't call setTheme explicitly,
+        // so next priority would be $themify->resolver(),
+        // which we are mocking here
         $this->resolver->shouldReceive('resolve')
             ->once()
             ->andReturn('bartheme');
 
+        // Check that the theme being returned is the
+        // one that the resolver found
         $this->assertEquals($this->t->getTheme(), 'bartheme');
     }
 
