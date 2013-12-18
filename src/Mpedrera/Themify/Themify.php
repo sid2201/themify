@@ -49,12 +49,7 @@ class Themify {
         $this->events = $events;
         $this->config = $config;
 
-        // TODO: Move to a proper place
-        $this->events->listen('theme.set', function($theme, $priority)
-        {
-            $themePath = $this->buildThemePath($theme);
-            $this->finder->addThemeLocation($themePath, $priority);
-        });
+        $this->addThemeSetListener();
     }
 
     /**
@@ -97,6 +92,22 @@ class Themify {
     public function addThemeLocation($location)
     {
         return $this->finder->addThemeLocation($location);
+    }
+
+    /**
+     * Add an event listener to 'theme.set'.
+     * When fired, it should tell the finder to try
+     * to add the location of the theme that's been set.
+     *
+     * @return void
+     */
+    protected function addThemeSetListener()
+    {
+        $this->events->listen('theme.set', function($theme, $priority)
+        {
+            $themePath = $this->buildThemePath($theme);
+            $this->finder->addThemeLocation($themePath, $priority);
+        });
     }
 
     /**
