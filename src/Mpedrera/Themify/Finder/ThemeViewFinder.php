@@ -61,7 +61,7 @@ class ThemeViewFinder extends FileViewFinder {
      */
     protected function hasPreviousThemeLocation()
     {
-        return $this->prevLocation ? false : array_search($this->prevLocation, $this->paths);
+        return $this->prevLocation ? array_search($this->prevLocation, $this->paths) : false;
     }
 
 }
