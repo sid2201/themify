@@ -3,7 +3,7 @@
 use Mockery as M;
 use Mpedrera\Themify\Themify;
 
-class ThemifyTest extends PHPUnit_Framework_TestCase {
+class ThemifyTest extends Orchestra\Testbench\TestCase {
 
     protected $resolver;
     protected $finder;
@@ -13,6 +13,8 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->mockResolver();
         $this->mockViewFinder();
         $this->mockDispatcher();
@@ -24,6 +26,8 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
             $this->events,
             $this->config
         );
+
+        $this->app['router']->enableFilters();
     }
 
     public function tearDown()
@@ -54,6 +58,36 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
         // Check that the theme being returned is the
         // one that the resolver found
         $this->assertEquals($this->t->getTheme(), 'bartheme');
+    }
+
+    public function testFilterDetectsControllerTheme()
+    {
+        // add route
+        // create mock controller
+        // mock controller methods and $theme
+        // call route
+        // check event is fired ?
+        // check getTheme returns controller theme
+    }
+
+    public function testSetThemeOverridesControllerTheme()
+    {
+        // add route
+        // create mock controller
+        // mock controller methods and $theme
+        // prepare call setTheme before filter
+        // call route
+        // check theme is the one setTheme set
+    }
+
+    public function testControllerThemeDoesNotOverridePreviousSetTheme()
+    {
+        // add route
+        // create mock controller
+        // mock controller methods and $theme
+        // prepare call setTheme after filter
+        // call route
+        // check theme is the one setTheme set
     }
 
     /**
@@ -88,6 +122,28 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
     protected function mockConfig()
     {
         $this->config = M::mock('Illuminate\Config\Repository');
+    }
+
+    /**
+     * Override Orchestra\Testbench methods.
+     *
+     * @return array
+     */
+    protected function getPackageProviders()
+    {
+        return array('Mpedrera\Themify\ThemifyServiceProvider');
+    }
+
+    /**
+     * Override Orchestra\Testbench methods.
+     *
+     * @return array
+     */
+    protected function getPackageAliases()
+    {
+        return array(
+
+        );
     }
 
 }

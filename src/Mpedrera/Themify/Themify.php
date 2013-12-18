@@ -78,7 +78,7 @@ class Themify {
      */
     public function getTheme()
     {
-        // Return $currentTheme if not null, $resolver->resolve() otherwise
+        // Return $currentTheme if not null, resolve otherwise
         return $this->currentTheme ?: $this->resolver->resolve();
     }
 
