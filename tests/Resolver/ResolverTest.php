@@ -108,7 +108,10 @@ class ResolverTest extends PHPUnit_Framework_TestCase {
      */
     protected function mockApp()
     {
-        $this->app = Mockery::mock('Illuminate\Foundation\Application');
+        $this->app = Mockery::mock(
+            'Illuminate\Foundation\Application',
+            'Illuminate\Container\Container'
+        );
     }
 
     /**

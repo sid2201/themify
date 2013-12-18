@@ -7,14 +7,23 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
 
     protected $resolver;
     protected $finder;
+    protected $events;
+    protected $config;
     protected $t;
 
     public function setUp()
     {
         $this->mockResolver();
         $this->mockViewFinder();
+        $this->mockDispatcher();
+        $this->mockConfig();
 
-        $this->t = new Themify($this->resolver, $this->finder);
+        $this->t = new Themify(
+            $this->resolver, 
+            $this->finder,
+            $this->events,
+            $this->config
+        );
     }
 
     public function tearDown()
@@ -24,6 +33,9 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
 
     public function testThemeIsBeingSet()
     {
+        $this->events->shouldReceive('fire')
+            ->once();
+
         $this->t->setTheme('footheme');
 
         $this->assertEquals($this->t->getTheme(), 'footheme');
@@ -52,6 +64,24 @@ class ThemifyTest extends PHPUnit_Framework_TestCase {
     protected function mockViewFinder()
     {
         $this->finder = M::mock('Mpedrera\Themify\Finder\ThemeViewFinder');
+    }
+
+    /**
+     *
+     */
+    protected function mockDispatcher()
+    {
+        $this->events = M::mock('Illuminate\Events\Dispatcher');
+        $this->events->shouldReceive('listen')
+            ->once();
+    }
+
+    /**
+     *
+     */
+    protected function mockConfig()
+    {
+        $this->config = M::mock('Illuminate\Config\Repository');
     }
 
 }
