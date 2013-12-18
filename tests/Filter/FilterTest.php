@@ -53,8 +53,28 @@ class FilterTest extends PHPUnit_Framework_TestCase {
         // Add another location with higher priority
         // Remember priority uses reverse order, so 1 is higher than 5
         $this->viewFinder->addThemeLocation($anotherLocation, 1);
+
+        // Check it only contains the newer location
         $this->assertNotContains($this->location, $this->viewFinder->getPaths());
         $this->assertContains($anotherLocation, $this->viewFinder->getPaths());
+    }
+
+    public function testPreviousLocationIsNotReplacedWhenAnotherIsAddedWithLowerPriority()
+    {
+        $this->createViewFinder();
+        $anotherLocation = '../../app/Acme/views';
+
+        // Add first location and check it's there
+        $this->viewFinder->addThemeLocation($this->location, 3);
+        $this->assertContains($this->location, $this->viewFinder->getPaths());
+
+        // Add another location with lower priority
+        // Remember priority uses reverse order, so 1 is higher than 5
+        $this->viewFinder->addThemeLocation($anotherLocation, 5);
+
+        // Check it only contains the first location
+        $this->assertContains($this->location, $this->viewFinder->getPaths());
+        $this->assertNotContains($anotherLocation, $this->viewFinder->getPaths());
     }
 
     /**
