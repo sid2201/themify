@@ -3,7 +3,7 @@
 use Mockery as M;
 use Mpedrera\Themify\Finder\ThemeViewFinder;
 
-class FilterTest extends PHPUnit_Framework_TestCase {
+class ThemeViewFinderTest extends PHPUnit_Framework_TestCase {
 
     protected $files;
     protected $viewFinder;

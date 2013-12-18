@@ -37,6 +37,9 @@ class Themify {
      * Constructor.
      *
      * @param Mpedrera\Themify\Resolver\Resolver $resolver
+     * @param Mpedrera\Themify\Finder\Finder
+     * @param Illuminate\Events\Dispatcher
+     * @param Illuminate\Config\Repository
      * @return Mpedrera\Themify\Themify
      */
     public function __construct(Resolver $resolver, Finder $finder, EventDispatcher $events, Config $config)
