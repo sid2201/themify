@@ -40,10 +40,10 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
         $this->events->shouldReceive('fire')->once();
 
         // Explicitly set theme
-        $this->t->setTheme('footheme');
+        $this->t->set('footheme');
 
         // Check it's been set properly
-        $this->assertEquals($this->t->getTheme(), 'footheme');
+        $this->assertEquals($this->t->get(), 'footheme');
     }
 
     public function testReturnsResolvedThemeWhenOwnThemeIsNull()
@@ -57,7 +57,7 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
 
         // Check that the theme being returned is the
         // one that the resolver found
-        $this->assertEquals($this->t->getTheme(), 'bartheme');
+        $this->assertEquals($this->t->get(), 'bartheme');
     }
 
     public function testFilterDetectsControllerTheme()
@@ -80,7 +80,7 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
         // check theme is the one setTheme set
     }
 
-    public function testControllerThemeDoesNotOverridePreviousSetTheme()
+    public function testControllerThemeDoesNotOverridePreviousset()
     {
         // add route
         // create mock controller

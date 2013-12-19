@@ -58,7 +58,7 @@ class Themify {
      * @param string $theme
      * @return void
      */
-    public function setTheme($theme)
+    public function set($theme)
     {
         if ( ! is_string($theme)) {
             throw new InvalidArgumentException('$theme parameter must be a string.');
@@ -76,7 +76,7 @@ class Themify {
      *
      * @return mixed
      */
-    public function getTheme()
+    public function get()
     {
         // Return $currentTheme if not null, resolve otherwise
         return $this->currentTheme ?: $this->resolver->resolve();

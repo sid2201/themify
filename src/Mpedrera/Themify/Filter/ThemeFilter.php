@@ -24,7 +24,7 @@ class ThemeFilter {
 
     public function filter()
     {
-        if (($theme = $this->themify->getTheme()) !== null) {
+        if (($theme = $this->themify->get()) !== null) {
             $this->events->fire('theme.set', array($theme, 5));
         }
     }
