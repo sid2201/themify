@@ -118,11 +118,9 @@ class Themify {
      */
     protected function buildThemePath($theme)
     {
-        $themePath = $this->config['themify::themes_path'];
-        $themePath .= DIRECTORY_SEPARATOR . $theme;
-        $themePath .= DIRECTORY_SEPARATOR . 'views';
+        $segments = array($this->config['themify::themes_path'], $theme, 'views');
 
-        return $themePath;
+        return implode(DIRECTORY_SEPARATOR, $segments);
     }
 
 }
