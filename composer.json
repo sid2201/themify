@@ -1,6 +1,6 @@
 {
     "name": "mpedrera/themify",
-    "description": "",
+    "description": "Add basic theme functionality to a Laravel 4 application.",
     "authors": [
         {
             "name": "Manuel Pedrera Jiménez",
@@ -18,7 +18,10 @@
     "autoload": {
         "psr-0": {
             "Mpedrera\\Themify": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "minimum-stability": "dev"
 }

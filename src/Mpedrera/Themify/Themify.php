@@ -34,11 +34,6 @@ class Themify {
     protected $config;
 
     /**
-     * @var string
-     */
-    protected $themePath;
-
-    /**
      * Constructor.
      *
      * @param Mpedrera\Themify\Resolver\Resolver $resolver
@@ -88,13 +83,14 @@ class Themify {
     }
 
     /**
-     * Get the path of the last theme set.
      *
-     * @return string
      */
-    public function path()
+    public function assetsPath()
     {
-        return $this->themePath;
+        $themeAssetsDir = $this->config->get('themify::themes_assets_path');
+        $theme = $this->get();
+        
+        return $themeAssetsDir . '/' . $theme;
     }
 
     /**
@@ -108,8 +104,8 @@ class Themify {
     {
         $this->events->listen('theme.set', function($theme, $priority)
         {
-            $this->themePath = $this->buildThemePath($theme);
-            $this->finder->addThemeLocation($this->themePath, $priority);
+            $themePath = $this->buildThemePath($theme);
+            $this->finder->addThemeLocation($themePath, $priority);
         });
     }
 
