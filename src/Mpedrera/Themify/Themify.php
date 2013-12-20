@@ -83,7 +83,20 @@ class Themify {
     }
 
     /**
+     * Set the default theme in package's configuration.
      *
+     * @param string $theme
+     * @return void
+     */
+    public function default($theme)
+    {
+        $this->config->set('themify::default_theme', $theme);
+    }
+
+    /**
+     * Get the path to the folder where theme assets are stored.
+     *
+     * @return string
      */
     public function assetsPath()
     {
