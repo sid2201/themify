@@ -83,18 +83,6 @@ class Themify {
     }
 
     /**
-     * Prepend a location to the finder, instead of 
-     * appending. This way, theme views have priority.
-     *
-     * @param string $location
-     * @return void
-     */
-    public function addThemeLocation($location)
-    {
-        return $this->finder->addThemeLocation($location);
-    }
-
-    /**
      * Add an event listener to 'theme.set'.
      * When fired, it should tell the finder to try
      * to add the location of the theme that's been set.
