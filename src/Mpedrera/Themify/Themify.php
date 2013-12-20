@@ -34,6 +34,11 @@ class Themify {
     protected $config;
 
     /**
+     * @var string
+     */
+    protected $themePath;
+
+    /**
      * Constructor.
      *
      * @param Mpedrera\Themify\Resolver\Resolver $resolver
@@ -83,6 +88,16 @@ class Themify {
     }
 
     /**
+     * Get the path of the last theme set.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return $this->themePath;
+    }
+
+    /**
      * Add an event listener to 'theme.set'.
      * When fired, it should tell the finder to try
      * to add the location of the theme that's been set.
@@ -93,8 +108,8 @@ class Themify {
     {
         $this->events->listen('theme.set', function($theme, $priority)
         {
-            $themePath = $this->buildThemePath($theme);
-            $this->finder->addThemeLocation($themePath, $priority);
+            $this->themePath = $this->buildThemePath($theme);
+            $this->finder->addThemeLocation($this->themePath, $priority);
         });
     }
 
