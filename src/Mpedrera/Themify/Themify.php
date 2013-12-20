@@ -89,7 +89,7 @@ class Themify {
     {
         $themeAssetsDir = $this->config->get('themify::themes_assets_path');
         $theme = $this->get();
-        
+
         return $themeAssetsDir . '/' . $theme;
     }
 
@@ -117,9 +117,7 @@ class Themify {
      */
     protected function buildThemePath($theme)
     {
-        $segments = array($this->config['themify::themes_path'], $theme, 'views');
-
-        return implode(DIRECTORY_SEPARATOR, $segments);
+        return $this->config['themify::themes_path'] . DIRECTORY_SEPARATOR . $theme;
     }
 
 }
