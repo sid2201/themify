@@ -79,8 +79,8 @@ Once you have defined your theme, you can render your views using the `View` cla
 
 Each of the mentioned methods has an internal priority assigned:
 
-- If the theme is explicitly set using `Themify::setTheme($theme)`, the only way to override it is to use `setTheme()` again.
-- If no calls to `setTheme()` are found, **Themify** will check for a `$theme` property in the current controller (if any). Note that this property should be `public`. This check is made through a simple `before` filter that the ServiceProvider of the package adds to all routes.
+- If the theme is explicitly set using `Themify::set($theme)`, the only way to override it is to use `set()` again.
+- If no calls to `set()` are found, **Themify** will check for a `$theme` property in the current controller (if any). Note that this property should be `public`. This check is made through a simple `before` filter that the ServiceProvider of the package adds to all routes.
 
 ```php
 <?php
