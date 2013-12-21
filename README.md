@@ -100,4 +100,4 @@ class MyAwesomeController extends BaseController {
 
 ## Examples
 
-- Work in progress -
+[Work in progress]
