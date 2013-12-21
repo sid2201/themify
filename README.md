@@ -97,3 +97,7 @@ class MyAwesomeController extends BaseController {
 }
 ```
 - If no `$theme` property is found on the controller, or there is no controller for the current route, **Themify** will get the value inside it's configuration file. This value can be set either at runtime using `Themify::defaults($theme)`, or modifying the `themify::default_theme` property inside the `config.php` that you published with artisan.
+
+## Examples
+
+- Work in progress -
