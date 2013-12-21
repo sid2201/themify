@@ -88,7 +88,7 @@ class Themify {
      * @param string $theme
      * @return void
      */
-    public function default($theme)
+    public function defaults($theme)
     {
         $this->config->set('themify::default_theme', $theme);
     }
