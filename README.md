@@ -26,40 +26,41 @@ Themify expects you to store your themes in a given folder, which is `app/themes
 
 Installation
 -------
-1. Use composer to install the package:
+ - Use composer to install the package:
 
 ```json
 "require": {
     "mpedrera/themify": "0.2.0"
 }
 ```
-2. Add the ServiceProvider to your service provider list inside `app/config/app.php`:
+ - Add the ServiceProvider to your service provider list inside `app/config/app.php`:
 
 ```php
-    'providers' => array(
-        ...
-        'Illuminate\View\ViewServiceProvider',
-        'Illuminate\Workbench\WorkbenchServiceProvider',
+'providers' => array(
+    ...
+    'Illuminate\View\ViewServiceProvider',
+    'Illuminate\Workbench\WorkbenchServiceProvider',
 
-        'Mpedrera\Themify\ThemifyServiceProvider',
-    ),
+    'Mpedrera\Themify\ThemifyServiceProvider',
+),
 ```
 
-3. Add the Facade to your aliases array inside `app/config/app.php`:
+ - Add the Facade to your aliases array inside `app/config/app.php`:
 
 ```php
-    'aliases' => array(
-        ...
-        'URL'             => 'Illuminate\Support\Facades\URL',
-        'Validator'       => 'Illuminate\Support\Facades\Validator',
-        'View'            => 'Illuminate\Support\Facades\View',
+'aliases' => array(
+    ...
+    'URL'             => 'Illuminate\Support\Facades\URL',
+    'Validator'       => 'Illuminate\Support\Facades\Validator',
+    'View'            => 'Illuminate\Support\Facades\View',
 
-        'Themify'         => 'Mpedrera\Themify\Facades\Themify',
+    'Themify'         => 'Mpedrera\Themify\Facades\Themify',
+),
 ```
 
-4. Create your `themes` directory inside your application. By default, **Themify** expects an `app/themes` directory, but this can be modified in the package configuration.
+ - Create your `themes` directory inside your application. By default, **Themify** expects an `app/themes` directory, but this can be modified in the package configuration.
 
-5. Publish package configuration with artisan: `php artisan config:publish mpedrera/themify`. Then, modify settings as needed.
+ - Publish package configuration with artisan: `php artisan config:publish mpedrera/themify`. Then, modify settings as needed.
 
 Usage
 -------
