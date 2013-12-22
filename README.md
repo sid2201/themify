@@ -30,7 +30,7 @@ Installation
 
 ```json
 "require": {
-    "mpedrera/themify": "0.2.0"
+    "mpedrera/themify": "*"
 }
 ```
  - Add the ServiceProvider to your service provider list inside `app/config/app.php`:
