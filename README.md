@@ -82,6 +82,21 @@ Each of the mentioned methods has an internal priority assigned:
 - If the theme is explicitly set using `Themify::set($theme)`, the only way to override it is to use `set()` again.
 - If no calls to `set()` are found, **Themify** will check for a `$theme` property in the current controller (if any). Note that this property should be `public`. This check is made through a simple `before` filter that the ServiceProvider of the package adds to all routes.
 
+### Theme assets
+
+**Themify** expects you to have a folder inside your `public` directory (or the one that you have defined in your Laravel configuration) to store theme assets. By default, this folder is `public/assets/themes`, but it can be modified in the package configuration file.
+
+Thus, this assets folder should contain one folder per theme. For example, if you are using a `bootstrap` theme, you should create `public/assets/themes/bootstrap`, and then create your stylesheets, javascripts and other assets there.
+
+### Helpers
+
+**Themify** provides two convenient helpers for your views: `theme_url()` and `theme_secure_url()`, which will return the path to your current theme assets folder.
+
+```html
+<link rel="stylesheet" type="text/css" href="{{ theme_url() }}/css/styles.css">
+<script src="{{ theme_url() }}/js/main.min.js"></script>
+```
+
 ```php
 <?php
 
