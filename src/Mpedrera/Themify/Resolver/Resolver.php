@@ -1,6 +1,7 @@
 <?php namespace Mpedrera\Themify\Resolver;
 
 use Illuminate\Container\Container;
+use Illuminate\Routing\Controller;
 
 class Resolver {
 
@@ -64,11 +65,13 @@ class Resolver {
      */
     protected function getCurrentController()
     {
-        $route = $this->app->make('router')->currentRouteAction();
+        $router = $this->app->make('router');
+        $route = $router->currentRouteAction();
         
         if (($pos = strpos($route, '@')) !== false) {
+            Controller::setFilterer($router);
             $controllerName = substr($route, 0, $pos);
-            return $this->app->make($controllerName);
+            return $this->app[$controllerName];
         }
     }
 
