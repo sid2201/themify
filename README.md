@@ -100,4 +100,47 @@ class MyAwesomeController extends BaseController {
 
 ## Examples
 
-[Work in progress]
+### Setting a theme for a group of routes
+
+```php
+<?php
+
+Route::filter('admin.theme', function()
+{
+    // We use default() so we can 
+    // override later if we want
+    Themify::default('admin')
+});
+
+Route::group(['prefix' => 'admin', 'before' => 'admin.theme'], function()
+{
+    // All of these routes will use
+    // 'admin' theme
+
+    // Override this route with a
+    // different theme
+    Route::get('login', function() {
+        Themify::set('basic');
+    });
+});
+```
+
+### Setting a theme for all controller actions
+
+You can define your theme in a per controller basis, using a `public $theme` property inside your controllers:
+
+```php
+<?php
+
+class FooController extends BaseController {
+
+    public $theme = 'footheme';
+
+    public function someAction()
+    {
+        // For this one, use a different theme
+        Themify::set('bartheme');
+    }
+
+}
+```
