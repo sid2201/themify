@@ -5,27 +5,13 @@ use Mpedrera\Themify\Themify;
 
 class ThemifyTest extends Orchestra\Testbench\TestCase {
 
-    protected $resolver;
-    protected $finder;
-    protected $events;
-    protected $config;
     protected $t;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->mockResolver();
-        $this->mockViewFinder();
-        $this->mockDispatcher();
-        $this->mockConfig();
-
-        $this->t = new Themify(
-            $this->resolver, 
-            $this->finder,
-            $this->events,
-            $this->config
-        );
+        $this->t = $this->app->make('themify');
 
         $this->app['router']->enableFilters();
     }
@@ -37,8 +23,6 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
 
     public function testThemeIsBeingSet()
     {
-        $this->events->shouldReceive('fire')->once();
-
         // Explicitly set theme
         $this->t->set('footheme');
 
@@ -48,46 +32,83 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
 
     public function testReturnsResolvedThemeWhenOwnThemeIsNull()
     {
-        // We don't call setTheme explicitly,
-        // so next priority would be $themify->resolver(),
+        // We don't call set() explicitly,
+        // so next priority would be $themify->resolve(),
         // which we are mocking here
-        $this->resolver->shouldReceive('resolve')
+        $resolver = $this->mockResolver();
+        $resolver->shouldReceive('resolve')
             ->once()
             ->andReturn('bartheme');
 
+        // Use a Themify instance with a mocked resolver
+        $t = new Themify(
+            $resolver,
+            $this->mockViewFinder(),
+            $this->mockDispatcher(),
+            $this->mockConfig()
+        );
+
         // Check that the theme being returned is the
         // one that the resolver found
-        $this->assertEquals($this->t->get(), 'bartheme');
+        $this->assertEquals($t->get(), 'bartheme');
     }
 
     public function testFilterDetectsControllerTheme()
     {
-        // add route
-        // create mock controller
-        // mock controller methods and $theme
-        // call route
-        // check event is fired ?
-        // check getTheme returns controller theme
+        // Create mock controller with all needed methods 
+        // and $theme property
+        $c = $this->mockController('FooController', 'footheme');
+
+        // Bind route to mocked controller with existing $theme property
+        // and call the route bound to it
+        $this->app['router']->get('foo', 'FooController@foo');
+        $this->call('GET', 'foo');
+
+        $this->assertEquals($this->t->get(), 'footheme');
     }
 
     public function testSetThemeOverridesControllerTheme()
     {
-        // add route
-        // create mock controller
-        // mock controller methods and $theme
-        // prepare call setTheme before filter
-        // call route
-        // check theme is the one setTheme set
+        // Create mock controller with all needed methods 
+        // and $theme property
+        $c = $this->mockController('FooController', 'footheme');
+
+        // Add a after filter to app, to set a different theme
+        $this->app->after(function($request)
+        {
+            $this->t->set('bartheme');
+        });
+
+        // Bind route to mocked controller with existing $theme property
+        // and call the route bound to it
+        $this->app['router']->get('foo', 'FooController@foo');
+        $this->call('GET', 'foo');
+
+        // Check that the final theme is the one set in the filter
+        // As set() should have priority over the controller property
+        $this->assertEquals($this->t->get(), 'bartheme');
     }
 
-    public function testControllerThemeDoesNotOverridePreviousset()
+    public function testControllerThemeDoesNotOverridePreviousSet()
     {
-        // add route
-        // create mock controller
-        // mock controller methods and $theme
-        // prepare call setTheme after filter
-        // call route
-        // check theme is the one setTheme set
+        // Create mock controller with all needed methods 
+        // and $theme property
+        $c = $this->mockController('FooController', 'footheme');
+
+        // Add a before filter to app, to set a different theme
+        $this->app->before(function($request)
+        {
+            $this->t->set('bartheme');
+        });
+
+        // Bind route to mocked controller with existing $theme property
+        // and call the route bound to it
+        $this->app['router']->get('foo', 'FooController@foo');
+        $this->call('GET', 'foo');
+
+        // Check that the final theme is the one set in the filter
+        // As set() should have priority over the controller property
+        $this->assertEquals($this->t->get(), 'bartheme');
     }
 
     /**
@@ -95,7 +116,7 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
      */
     protected function mockResolver()
     {
-        $this->resolver = M::mock('Mpedrera\Themify\Resolver\Resolver');
+        return M::mock('Mpedrera\Themify\Resolver\Resolver');
     }
 
     /**
@@ -103,7 +124,7 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
      */
     protected function mockViewFinder()
     {
-        $this->finder = M::mock('Mpedrera\Themify\Finder\ThemeViewFinder');
+        return M::mock('Mpedrera\Themify\Finder\ThemeViewFinder');
     }
 
     /**
@@ -111,9 +132,10 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
      */
     protected function mockDispatcher()
     {
-        $this->events = M::mock('Illuminate\Events\Dispatcher');
-        $this->events->shouldReceive('listen')
-            ->once();
+        $events = M::mock('Illuminate\Events\Dispatcher');
+        $events->shouldReceive('listen')->once();
+
+        return $events;
     }
 
     /**
@@ -121,7 +143,37 @@ class ThemifyTest extends Orchestra\Testbench\TestCase {
      */
     protected function mockConfig()
     {
-        $this->config = M::mock('Illuminate\Config\Repository');
+        return M::mock('Illuminate\Config\Repository');
+    }
+
+    /**
+     *
+     */
+    protected function mockController($name, $theme)
+    {
+        $controller = M::mock($name);
+
+        $controller->shouldReceive('getAfterFilters')
+            ->once()
+            ->andReturn(array());
+
+        $controller->shouldReceive('getBeforeFilters')
+            ->once()
+            ->andReturn(array());
+
+        $controller->shouldReceive('callAction')
+            ->once()
+            ->withAnyArgs();
+
+        $controller->theme = $theme;
+
+        // Bind controller class to the mocked controller
+        $this->app->bind($name, function($app) use ($controller)
+        {
+            return $controller;
+        });
+
+        return $controller;
     }
 
     /**
