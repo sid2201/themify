@@ -24,7 +24,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
     public function testFiresEventIfThemeIsFound()
     {
         // Mock themify so it founds a theme
-        $this->themify->shouldReceive('getTheme')
+        $this->themify->shouldReceive('get')
             ->once()
             ->andReturn('footheme');
 
@@ -35,7 +35,6 @@ class FilterTest extends PHPUnit_Framework_TestCase {
             ->once()
             ->with('theme.set', array('footheme', 5));
 
-        $this->createFilter();
         $this->filter->filter();
     }
 
