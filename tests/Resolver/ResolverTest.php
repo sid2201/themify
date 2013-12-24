@@ -149,8 +149,8 @@ class ResolverTest extends PHPUnit_Framework_TestCase {
     {
         $controller = M::mock($name);
         $controller->theme = $theme;
-
-        $this->app->shouldReceive('make')
+        
+        $this->app->shouldReceive('offsetGet')
             ->with($name)
             ->once()
             ->andReturn($controller);
