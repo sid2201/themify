@@ -103,7 +103,9 @@ class Themify {
         $themeAssetsDir = $this->config->get('themify::themes_assets_path');
         $theme = $this->get();
 
-        return $themeAssetsDir . '/' . $theme;
+		// ALEXIS
+        //return $themeAssetsDir . '/' . $theme;
+		return $this->config['themify::themes_path'] . '/' . $theme . '/' . $themeAssetsDir;
     }
 
     /**
@@ -130,7 +132,9 @@ class Themify {
      */
     protected function buildThemePath($theme)
     {
-        return $this->config['themify::themes_path'] . DIRECTORY_SEPARATOR . $theme;
+		// ALEXIS
+	    //return $this->config['themify::themes_path'] . DIRECTORY_SEPARATOR . $theme;
+	    return $this->config['themify::themes_path'] . DIRECTORY_SEPARATOR . $theme. DIRECTORY_SEPARATOR . 'views';
     }
 
 }
